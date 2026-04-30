@@ -14,16 +14,6 @@ services:
       - mysql-db
     env_file:
       - ./vars.env
-    healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "node -e \"require('http').get('http://127.0.0.1:9090/', r=>process.exit(r.statusCode<500?0:1)).on('error',()=>process.exit(1))\""
-        ]
-      interval: 5s
-      timeout: 3s
-      retries: 30
-      start_period: 60s
 
   mysql-db:
     image: mysql:5.7
@@ -31,9 +21,3 @@ services:
       - "3306"
     env_file:
       - ./vars.env
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-u", "dvna", "-ppassw0rd"]
-      interval: 5s
-      timeout: 3s
-      retries: 30
-      start_period: 30s
