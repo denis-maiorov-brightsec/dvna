@@ -34,7 +34,7 @@ jobs:
           MYSQL_HOST: mysql-db
           MYSQL_PORT: "3306"
         run: |
-          docker compose up --wait &
+          docker compose up -d --wait
 
       - name: Probe application readiness
         run: |
@@ -65,3 +65,7 @@ jobs:
           SECTESTER_SCAN_POOL_SIZE: ${{ vars.SECTESTER_SCAN_POOL_SIZE }}
         run: |
           node --experimental-transform-types --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning --test-force-exit --test-concurrency=4 --test .brightsec/tests/*.test.ts
+
+      - name: Teardown
+        if: always()
+        run: docker compose down -v
