@@ -8,4 +8,13 @@ WORKDIR /app
 
 RUN npm install -g nodemon
 
+# Add the scripts that the CMD/entrypoint requires
+COPY entrypoint-dev.sh startup.sh wait-for-it.sh /app/
+
+# Add application sources needed by `startup.sh` (node server.js)
+COPY package*.json /app/
+COPY . /app/
+
+RUN chmod +x /app/entrypoint-dev.sh /app/startup.sh /app/wait-for-it.sh
+
 CMD ["/bin/bash", "/app/entrypoint-dev.sh"]
