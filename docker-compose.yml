@@ -12,6 +12,12 @@ services:
       - mysql-db
     env_file:
       - ./vars.env
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:9090/ >/dev/null || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+      start_period: 30s
 
   mysql-db:
     image: mysql:5.7
