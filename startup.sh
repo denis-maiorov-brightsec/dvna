@@ -1,4 +1,4 @@
 #! /bin/bash
 
-npm install
-nodemon
+npm install --no-audit --no-fund
+npm start
